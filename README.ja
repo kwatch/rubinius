@@ -1,0 +1,86 @@
+1. What is Rubinius
+1. Rubinius とは
+
+Rubinius is a next-generation virtual machine and compiler for Ruby.  Based
+loosely on the Smalltalk-80 'Blue Book' design, Rubinius will provide a rich,
+high-performance environment for running Ruby code.
+Rubinius は、Ruby のための次世代の仮想マシンおよびコンパイラです。
+Smalltalk-80 の 'BlueBook' に書かれてある設計をだいたい基にしています。
+Rubinius は、Ruby コードを実行するための高機能で高性能な環境を提供する予定です。
+
+2. Running Rubinius
+2. Rubinius を実行する
+
+Refer to the INSTALL file for instructions on getting and building Rubinius.
+Rubinius を取ってきてビルドするには、INSTALL ファイルを参照してください。
+
+3. Status
+3. 現状
+
+Rubinius is under heavy development, and currently supports the basic Ruby
+classes and kernel methods. The code base is written in a mixture of ANSI C and
+Ruby; with more Ruby and less C as the project proceeds.  You should not run
+your mission-critical Rails apps under Rubinius yet.
+Rubinius は現在絶賛開発中であり、今のところ Ruby の基本的なクラスとカーネルのメソッドをサポートしています。
+コードベースは ANSI C と Ruby が混在して書かれています。;
+プロジェクトが進むにつれて、Ruby のコードが増えて C コードが減る予定です。
+ミッションクリティカルな Rails アプリケーションは、まだ Rubinius で動かさないようにしてください。
+
+4. Goals
+4. 最終目標
+
+* Thread safety. Rubinius intends to be thread-safe so you could embed more
+  than one interpreter in a single application. It does not currently meet
+  this goal due to some components borrowed from the mainline Ruby interpreter.
+* スレッドセーフ。ひとつのアプリケーションに複数のインタプリタを埋め込めるようにするために、Rubinius はスレッドセーフになる予定です。
+  現状では、この目標は達成されていません。本家 Ruby インタプリタから借りたいくつかのコンポーネントのせいです。
+
+* Clean, readable code that is easy for users to understand and extend.
+* クリーンで可読性の高いコード。ユーザが理解したり拡張するのをしやすくするためです。
+
+* Reliable, rock-solid code.  Valgrind is used to help verify correctness.
+* 信頼性の高い、手堅いコード。正当性を検証するために、Valgrind を使っています。
+
+* Bring modern techniques to the Ruby runtime. Pluggable garbage collectors and
+  code optimizers are possible examples.
+* 近代的な技術を Ruby ランタイムに持ち込む。
+  取り替え可能なガーベージコレクタと、コード最適化は、実現可能な例です。
+
+5. Volunteering to Help
+5. 助力となるボランティア
+
+The Rubinius team welcomes contributions, bug reports, test cases, and monetary
+support. One possible way to help is implement Ruby library classes. Visit
+http://rubinius.lighthouseapp.com for documentation on how to begin hacking
+Rubinius.
+Rubinius チームは、貢献、バグレポート、テストケース、金銭のサポートなどを歓迎します。
+Ruby ライブラリクラスを実行することは、実現可能な助力のひとつです。
+http://rubinius.lighthouseapp.com にあるドキュメントに、Rubinius におけるハックの始め方法が書かれてあります。
+
+6. Architecture
+6. アーキテクチャ
+
+Rubinius currently uses C to bootstrap the system. In the future, a limited
+dialect of Ruby called cuby/garnet will be used to generate C. This is a
+time-honored technique, used by systems such as Squeak, Smalltalk, and Algol on
+the Burroughs systems (as seen in the movie 'Tron').
+Rubinius は現在、システムを開始するのに C を使っています。
+将来的には、cuby/garnet と呼ばれる、Ruby の限定された方言〔訳注: Ruby のサブセット〕を使い、そこから C コードを生成する予定です。
+これは Squeak や Smalltalk や Burroughs 上の Algol (映画 Tron に出てきたやつ) のシステムで使われてきた、由緒ある方法です。
+
+For now, this code is hand-written, and can be found in the ./shotgun/lib
+directory.  This code was ported from a Ruby implementation found in the ./lib
+directory.  For example, shotgun/lib/object_memory.c is the C translation of
+lib/object_memory.rb.
+現在のところ、このコードはハードコードされており、./shotgun/lib ディレクトリで見ることができます。
+このコードは、./lib ディレクトリにある〔訳注: ./lib は今はない〕、Ruby による実装〔訳注: Sydney のことか?〕から移植されたものです。
+たとえば、shotgun/lib/object_memory.c は lib/object_memory.rb を C に変換したものです。
+
+The compiler, assembler, and bytecode generators are all written in Ruby, and
+can be found under the ./lib directory.  Other systems use the word
+'translator' for what is here referred to as 'compiler'.  The ./bin/rcc script
+can be used to display the symbolic output of the compiler, for debugging or
+learning purposes.
+コンパイラとアセンブラとバイトコードジェネレータはすべて Ruby で書かれており、./lib ディレクトリ以下で見ることができます。
+他のシステムは 'translator' という単語を、ここでいうところの 'compiler' と同じ意味で使っています。
+./bin/rcc スクリプトは、デバッグや学習目的のために、コンパイラによる記号的な出力を表示するのに使います。
